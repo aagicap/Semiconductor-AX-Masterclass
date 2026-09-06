@@ -1,0 +1,24 @@
+# 1. Data Engineering & Matrix Processing
+pandas>=3.0.5,<4.0
+numpy>=2.5.2,<3.0
+
+# 2. Machine Learning & Vector Database
+scikit-learn>=1.9.0,<2.0
+faiss-cpu>=1.15.0,<2.0
+
+# 3. Data Visualization & Reporting
+matplotlib>=3.11.1,<4.0
+seaborn>=0.13.2
+openpyxl>=3.1.5
+
+# 4. Document Parsing (장비 매뉴얼 PDF)
+pypdf>=6.17.0
+
+# 5. LLM Automation & Dashboard
+openai>=3.8.0,<4.0
+streamlit>=1.63.0
+python-dotenv>=1.2.3
+
+# 6. Code Quality (1.2절 실습)
+black>=26.5.1
+pylint>=4.0.8
