@@ -9,11 +9,11 @@ from datetime import datetime
 
 from ax_engine import (
     ParsingEngine,
-    StaParser,
+    StaParserV4,
     StaParserV5,
     build_payload,
 )
-from ax_settings import DATA_DIR, PARSED_DIR
+from ax_settings import DATA_DIR, PARSED_DIR, THRESHOLD
 from ax_text import pad
 
 MIXED_DIR = DATA_DIR / "logs_mixed"
@@ -42,7 +42,8 @@ def report() -> None:
     print(" 파싱 엔진: 혼합 형식 리포트 → JSON 자산")
     print("=" * 62)
 
-    engine = ParsingEngine([StaParser(), StaParserV5()], MIXED_DIR)
+    parsers = [StaParserV4(), StaParserV5()]  # 새 형식은 여기에 추가
+    engine = ParsingEngine(parsers, MIXED_DIR)
     try:
         lots = engine.run()
     except FileNotFoundError as error:
@@ -59,7 +60,7 @@ def report() -> None:
     stamp = datetime.now().isoformat(timespec="seconds")
     matched = 0
     for lot_id, lot in sorted(lots.items()):
-        payload = build_payload(lot, stamp)
+        payload = build_payload(lot, stamp, THRESHOLD)
         path = OUT_DIR / f"{lot_id.lower()}.json"
         path.write_text(
             json.dumps(payload, ensure_ascii=False, indent=2),

@@ -1,12 +1,11 @@
 """
 ax_summary.py
 레코드 묶음을 판정하고 요약한다. 모든 함수가 순수 함수다.
+관찰 기준은 호출하는 쪽이 인자로 넘긴다.
 """
 
-from ax_settings import THRESHOLD
 
-
-def is_risky(record: dict, threshold: float = THRESHOLD) -> bool:
+def is_risky(record: dict, threshold: float) -> bool:
     """슬랙이 관찰 기준 미만이면 True. 값이 없으면 False."""
     slack = record["worst_slack"]
     return slack is not None and slack < threshold
@@ -20,9 +19,7 @@ def group_by_lot(records: list[dict]) -> dict[str, list[dict]]:
     return groups
 
 
-def summarize(
-    records: list[dict], threshold: float = THRESHOLD
-) -> dict:
+def summarize(records: list[dict], threshold: float) -> dict:
     """레코드 묶음의 요약 정보를 만든다."""
     risky = [r for r in records if is_risky(r, threshold)]
     wafers = {(r["lot_id"], r["wafer_id"]) for r in records}

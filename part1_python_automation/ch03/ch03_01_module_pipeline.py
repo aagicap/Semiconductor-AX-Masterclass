@@ -1,9 +1,12 @@
 """
 ch03_01_module_pipeline.py
-공통 모듈을 조립해 로트별 요약을 만들고 2.4절 결과와 대조한다.
+공통 모듈을 조립해 로트별 요약을 만들고 이전 JSON 자산과 대조한다.
+대조할 폴더를 인자로 주지 않으면 2.4절 결과(data/parsed)를 쓴다.
 """
 
 import json
+import sys
+from pathlib import Path
 
 from ax_settings import LOG_DIR, PARSED_DIR, THRESHOLD
 from ax_sta import load_records
@@ -11,19 +14,19 @@ from ax_summary import group_by_lot, summarize
 from ax_text import pad
 
 
-def load_previous(lot_id: str) -> dict | None:
-    """2.4절이 저장한 로트 요약을 읽는다. 파일이 없으면 None."""
-    path = PARSED_DIR / f"{lot_id.lower()}.json"
+def load_previous(folder: Path, lot_id: str) -> dict | None:
+    """폴더에 저장된 로트 요약을 읽는다. 파일이 없으면 None."""
+    path = folder / f"{lot_id.lower()}.json"
     if not path.exists():
         return None
     payload = json.loads(path.read_text(encoding="utf-8"))
     return payload["summary"]
 
 
-def report() -> None:
+def report(compare_dir: Path) -> None:
     """로트별 요약을 출력하고 이전 결과와 비교한다."""
     print("=" * 62)
-    print(" 모듈 조립 파이프라인: 로트별 요약과 2.4절 대조")
+    print(" 모듈 조립 파이프라인: 로트별 요약과 이전 자산 대조")
     print("=" * 62)
 
     records = load_records()
@@ -34,14 +37,15 @@ def report() -> None:
         return
 
     print(f"  관찰 기준 : 슬랙 {THRESHOLD} ns 미만")
+    print(f"  대조 대상 : {compare_dir.resolve()}")
     print("-" * 62)
     print(f"  {pad('로트', 10)}{pad('건수', 8)}{pad('위험', 8)}대조")
     print("-" * 62)
 
     compared = matched = 0
     for lot_id, group in sorted(group_by_lot(records).items()):
-        summary = summarize(group)
-        before = load_previous(lot_id)
+        summary = summarize(group, THRESHOLD)
+        before = load_previous(compare_dir, lot_id)
         if before is None:
             verdict = "비교 대상 없음"
         else:
@@ -62,4 +66,5 @@ def report() -> None:
 
 
 if __name__ == "__main__":
-    report()
+    target = Path(sys.argv[1]) if len(sys.argv) > 1 else PARSED_DIR
+    report(target)

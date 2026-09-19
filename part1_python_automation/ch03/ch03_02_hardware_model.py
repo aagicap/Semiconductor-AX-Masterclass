@@ -6,7 +6,7 @@ ch03_02_hardware_model.py
 from dataclasses import FrozenInstanceError
 
 from ax_hardware import Die, Wafer, build_lots
-from ax_settings import LOG_DIR
+from ax_settings import LOG_DIR, THRESHOLD
 from ax_sta import load_records
 from ax_summary import group_by_lot, summarize
 from ax_text import pad
@@ -63,8 +63,8 @@ def report() -> None:
     groups = group_by_lot(records)
     matched = 0
     for lot_id, lot in sorted(lots.items()):
-        summary = lot.summary()
-        same = summary == summarize(groups[lot_id])
+        summary = lot.summary(THRESHOLD)
+        same = summary == summarize(groups[lot_id], THRESHOLD)
         matched += same
         print(
             f"  {pad(lot_id, 10)}{pad(str(len(lot.wafers)), 8)}"

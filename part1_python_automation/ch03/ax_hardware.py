@@ -6,7 +6,6 @@ ax_hardware.py
 
 from dataclasses import dataclass, field
 
-from ax_settings import THRESHOLD
 from ax_summary import is_risky, summarize
 
 
@@ -24,7 +23,7 @@ class Die:
     operating_freq: float | None
     alarm: str | None
 
-    def is_risky(self, threshold: float = THRESHOLD) -> bool:
+    def is_risky(self, threshold: float) -> bool:
         """3.1절 판정 함수에 자신의 속성을 넘긴다."""
         return is_risky(vars(self), threshold)
 
@@ -48,7 +47,7 @@ class Wafer:
             raise ValueError(f"{self.key} 에 다른 다이: {die.lot_id}")
         self.dies.append(die)
 
-    def risky_dies(self, threshold: float = THRESHOLD) -> list[Die]:
+    def risky_dies(self, threshold: float) -> list[Die]:
         """관찰 기준 미만의 다이만 골라낸다."""
         return [d for d in self.dies if d.is_risky(threshold)]
 
@@ -72,7 +71,7 @@ class Lot:
         """로트에 속한 모든 다이."""
         return [d for w in self.wafers.values() for d in w.dies]
 
-    def summary(self, threshold: float = THRESHOLD) -> dict:
+    def summary(self, threshold: float) -> dict:
         """3.1절 요약 함수로 로트 요약을 만든다."""
         return summarize([vars(d) for d in self.dies], threshold)
 

@@ -43,6 +43,8 @@ def to_v5_line(r: dict) -> str:
 def write_v5(src, dst, lot_id: str) -> int:
     """v4 리포트 하나를 v5 형식으로 다시 써서 행 수를 돌려준다."""
     stamp = RE_STAMP.search(src.read_text(encoding="utf-8"))
+    if stamp is None:
+        raise ValueError(f"머리말에 생성 시각이 없다 : {src.name}")
     generated = f"{stamp['d']}T{stamp['t']}"
     records = parse_file(src)
     lines = [
