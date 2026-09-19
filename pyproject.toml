@@ -1,0 +1,9 @@
+# 이 파일은 코드 서식 도구의 설정을 저장소 차원에서 고정한다.
+# VS Code의 Black Formatter 확장과 터미널의 black 명령이 같은 값을 참조한다.
+
+[tool.black]
+line-length = 72          # 지면 폭에 맞춘 한 줄 최대 길이
+target-version = ["py312"]
+
+[tool.pylint.format]
+max-line-length = 72

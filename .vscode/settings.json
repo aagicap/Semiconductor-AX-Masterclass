@@ -1,0 +1,24 @@
+{
+  // 윈도우 기준. macOS·리눅스는 아래 줄을 ".venv/bin/python"으로 바꾼다
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    72
+  ],
+  "files.eol": "\n",
+  "files.encoding": "utf8",
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  "files.watcherExclude": {
+    "**/data/**": true,
+    "**/.venv/**": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "remote.SSH.remotePlatform": {
+    "fab-analysis": "linux"
+  }
+}

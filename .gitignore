@@ -217,10 +217,13 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-venv/
-.env
-__pycache__/
-
-venv/
-.env
-__pycache__/
+# ============================================================
+# Semiconductor-AX-Masterclass : 생성 스크립트로 재현되는 산출물
+# 커밋하지 않는다. data/*.py 와 각 장 스크립트로 언제든 다시 만든다.
+# (.log 파일은 위의 *.log 규칙으로 이미 제외된다)
+# ============================================================
+data/alphachip_v2_integrated_data.csv
+data/logs/
+data/logs_mixed/
+data/parsed/
+data/parsed_engine/
