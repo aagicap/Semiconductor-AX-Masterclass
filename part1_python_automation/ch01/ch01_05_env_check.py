@@ -16,7 +16,7 @@ MIN_LENGTH = 20
 
 
 def mask(secret: str) -> str:
-    """앞 3자와 뒤 4자만 남기고 가린다. 로그 유출을 막는다."""
+    """키 원문 노출을 줄이기 위해 일부만 남기고 가린다."""
     if len(secret) <= 7:
         return "*" * len(secret)
     return f"{secret[:3]}{'*' * 10}{secret[-4:]}"

@@ -38,7 +38,7 @@ def build_line(row: pd.Series, rng: random.Random) -> str:
 
     tail = ""
     if row.Error_Code == "ERR-G202":
-        tail = "  (CHAMBER_ALARM)"
+        tail = "  (GAS_FLOW_WARN)"
 
     gap = " " * rng.choice([1, 2, 3])
     return head + gap + gap.join(parts) + tail

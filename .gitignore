@@ -228,3 +228,5 @@ data/logs_mixed/
 data/parsed/
 data/parsed_engine/
 data/parsed_stale/
+data/bench/
+data/processed/

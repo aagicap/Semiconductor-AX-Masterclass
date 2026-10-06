@@ -58,7 +58,7 @@ def report() -> None:
     else:
         print("  [FAIL] 시스템 전역 환경에서 실행 중")
         print("         지금 pip install 을 실행하면 다른 프로젝트에")
-        print("         영향을 준다. 가상환경을 활성화한다.")
+        print("         영향을 줄 수 있다. 가상환경을 활성화한다.")
     print("=" * 62)
 
 

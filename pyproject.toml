@@ -1,5 +1,23 @@
-# 이 파일은 코드 서식 도구의 설정을 저장소 차원에서 고정한다.
-# VS Code의 Black Formatter 확장과 터미널의 black 명령이 같은 값을 참조한다.
+# 이 파일은 저장소 차원의 설정을 한곳에 모은다.
+# ① ax_ 공통 모듈 설치(pip install -e .) ② 코드 서식 도구(black·pylint)
+# 같은 [tool.xxx] 표를 두 번 쓰면 설치가 중단되므로 표마다 한 번만 둔다.
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semiconductor-ax-masterclass"
+version = "0.4.0"
+requires-python = ">=3.12"
+
+# 3장에서 만든 ax_ 공통 모듈을 저장소 어디서든 불러 쓰게 한다
+[tool.setuptools]
+package-dir = {"" = "part1_python_automation/ch03"}
+py-modules = [
+    "ax_settings", "ax_text", "ax_sta", "ax_summary",
+    "ax_hardware", "ax_engine", "ax_frame",
+]
 
 [tool.black]
 line-length = 72          # 지면 폭에 맞춘 한 줄 최대 길이

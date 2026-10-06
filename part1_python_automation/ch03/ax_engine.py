@@ -87,6 +87,7 @@ class ParsingEngine:
         self.parsers = parsers
         self.log_dir = log_dir
         self.used: dict[str, str] = {}  # 파일 이름 → 사용한 파서
+        self.unsupported: list[str] = []  # 받는 파서가 없던 파일
 
     def pick(self, path: Path) -> BaseStaParser | None:
         """첫 줄을 읽어 맞는 파서를 고른다. 없으면 None."""
@@ -108,7 +109,8 @@ class ParsingEngine:
         for path in files:
             parser = self.pick(path)
             if parser is None:
-                self.used[path.name] = "미지원 형식 (건너뜀)"
+                self.used[path.name] = "미지원 형식"
+                self.unsupported.append(path.name)
                 continue
             self.used[path.name] = parser.name
             for die in parser.parse(path):

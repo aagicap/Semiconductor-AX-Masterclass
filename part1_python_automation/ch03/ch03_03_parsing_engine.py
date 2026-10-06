@@ -56,6 +56,13 @@ def report() -> None:
         print(f"  {pad(name, 18)}{parser_name}")
     print("-" * 62)
 
+    if engine.unsupported:
+        print(f"  [FAIL] 미지원 형식 {len(engine.unsupported)}개")
+        print("         검증되지 않은 자산은 저장하지 않는다.")
+        print("         형식을 확인하거나 파서를 추가해 다시 실행한다.")
+        print("=" * 62)
+        return
+
     OUT_DIR.mkdir(exist_ok=True)
     stamp = datetime.now().isoformat(timespec="seconds")
     matched = 0
