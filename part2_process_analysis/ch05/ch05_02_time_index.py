@@ -27,6 +27,8 @@ def daily_pressure(df: pd.DataFrame) -> pd.DataFrame:
 def lot_window(df: pd.DataFrame, lot: str) -> tuple[pd.Timestamp, ...]:
     """로트 하나가 처리된 시간 구간(시작, 끝)을 돌려준다."""
     span = df.index[df["Lot_ID"] == lot]
+    if span.empty:
+        raise ValueError(f"존재하지 않는 Lot_ID: {lot}")
     return span.min(), span.max()
 
 
@@ -48,15 +50,19 @@ def report() -> None:
     print(f"  {pad('매일 08:00~08:55', 26)}{len(morning):>5}행")
     start, end = lot_window(df, "LOT_03")
     hours = (end - start) / pd.Timedelta(hours=1)
-    print(f"  LOT_03 구간 : {start:%m-%d %H:%M} ~ {end:%m-%d %H:%M}"
-          f" ({hours:.1f}시간)")
+    print(
+        f"  LOT_03 구간 : {start:%m-%d %H:%M} ~ {end:%m-%d %H:%M}"
+        f" ({hours:.1f}시간)"
+    )
     print("-" * 62)
     daily = daily_pressure(df)
     print("  일별 압력 요약 (mTorr)")
     print(f"  {pad('날짜', 10)}{pad('행', 7)}{pad('평균', 10)}표준편차")
     for when, row in daily.iterrows():
-        print(f"  {when:%m-%d}{'':5}{int(row['count']):<7}"
-              f"{row['mean']:<10.3f}{row['std']:.3f}")
+        print(
+            f"  {when:%m-%d}{'':5}{int(row['count']):<7}"
+            f"{row['mean']:<10.3f}{row['std']:.3f}"
+        )
     print("-" * 62)
     print("  [확인 범위] 압력의 시간 구간 요약만 계산했다")
     print("  구간 사이의 차이가 무엇 때문인지는 판단하지 않았다")
