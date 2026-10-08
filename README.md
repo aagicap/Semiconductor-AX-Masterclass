@@ -42,7 +42,7 @@ Semiconductor-AX-Masterclass/
 │   ├─ data_generator.py         # 통합 데이터셋(CSV) 생성
 │   └─ log_generator.py          # 2장 타이밍 리포트 생성
 ├─ docs/                         # 저장소에서 제공하는 온라인 부록
-│   └─ appendix-a1/              # 부록 A-1 실습 환경 설치
+│   ├─ appendix-a1/              # 부록 A-1 실습 환경 설치
 │   └─ appendix-a2/              # 부록 A-2 파이썬 코어 문법 브릿지 예제
 ├─ extras/
 │   └─ benchmark_hash_lookup.py  # 2.3절 표 2-4 측정 재현
