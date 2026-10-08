@@ -33,15 +33,12 @@ def example_02() -> None:
 
 def example_03() -> None:
     """예외 처리와 예외 발생."""
-    def to_slack(text: str) -> float:
-        value = float(text)
-        if value < -1.0:
-            raise ValueError(f"범위 밖 슬랙: {value}")
-        return value
-
     for text in ("0.032", "abc", "-5.0"):
         try:
-            print(to_slack(text))
+            value = float(text)
+            if value < -1.0:
+                raise ValueError(f"범위 밖 슬랙: {value}")
+            print(value)
         except ValueError as error:
             print(f"[건너뜀] {error}")
 

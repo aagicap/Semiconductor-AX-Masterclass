@@ -26,7 +26,9 @@ python check_environment.py
 
 ```
 .vscode/                     # 공유 워크스페이스 설정(1.2절). 개인 설정을 넣지 않는다
-data/                        # 데이터셋, 제너레이터, 13장 RAG용 가상 매뉴얼(manuals/)
+data/                        # 데이터·리포트 생성 스크립트. 13장 가상 매뉴얼은 13장 작업 때 추가
+docs/                        # 저장소에서 제공하는 온라인 부록(마크다운). appendix-a1/ 등
+extras/                      # 본문 측정값 재현 스크립트(절 번호 없는 보조 코드)
 part1_python_automation/     ch01/ ch02/ ch03/
 part2_process_analysis/      ch04/ ch05/ ch06/
 part3_visual_db_report/      ch07/ ch08/ ch09/
@@ -41,6 +43,8 @@ part5_rag_capstone/          ch12/ ch13/
 - **예외: 여러 절이 함께 불러 쓰는 공통 모듈은 절 번호 없이 `ax_` 접두어를 쓴다.** 실행 스크립트가 아니라 부품이며, 표준 라이브러리와 이름이 충돌하지 않게 하기 위해서다.
   - 예: `part1_python_automation/ch03/ax_settings.py`, `ax_sta.py`, `ax_summary.py`
   - 3장부터 경로·관찰 기준은 `ax_settings.py`, 판정·요약은 `ax_summary.py`의 것을 불러 쓴다. 같은 규칙을 다른 파일에 다시 작성하지 않는다.
+  - 4장부터 통합 CSV는 `ax_frame.load_dataset()`로 읽고, 무결성 점검은 `ax_frame.check_integrity()`를 쓴다.
+  - 공통 모듈은 모두 `part1_python_automation/ch03/`에 두고 `pyproject.toml`의 `py-modules`에 등록한다. 새 모듈을 등록하면 `pip install -e .`를 다시 실행하고 README 갱신 이력에 적는다. `pyproject.toml`에 같은 표(`[tool.xxx]`)를 두 번 선언하지 않는다.
 
 ---
 
@@ -97,7 +101,7 @@ CSV를 직접 편집하지 않는다. 데이터가 필요하면 제너레이터�
 
 ### 서사 순서 지키기
 
-교재는 수율 급락의 원인을 6장에서 규명하는 구조다. **1~5장 코드와 주석에서 원인을 미리 지목하지 않는다.**
+교재는 수율 급락과 함께 움직이는 요인을 6장에서 처음 추적하는 구조다. **1~5장 코드와 주석에서 원인을 미리 지목하지 않는다.**
 
 - 1~5장 코드와 주석에서 특정 장비를 원인으로 지목하거나 원인과 관련된 임계값을 상수로 박아 두지 않는다. 구체적인 대상은 위 검증 지표의 스포일러 블록에 있다.
 - 장비별 불량률 비교, 온도 구간별 불량률 산출은 6장 코드부터 등장시킨다.
@@ -113,7 +117,7 @@ CSV를 직접 편집하지 않는다. 데이터가 필요하면 제너레이터�
   - 예: `data_generator 저장 경로를 스크립트 기준으로 변경`
 - 한 커밋에 여러 절의 변경을 섞지 않는다.
 - `.venv/`, `.env`, `__pycache__/`는 커밋하지 않는다.
-- **생성물은 커밋하지 않는다.** 통합 CSV, `data/logs/`, `data/logs_mixed/`, `data/parsed/`, `data/parsed_engine/`, `data/parsed_stale/`은 시드가 고정된 스크립트로 언제든 재현되므로 루트 `.gitignore`에 등록되어 있다. 새 생성물 폴더를 만들면 `.gitignore`에도 추가한다.
+- **생성물은 커밋하지 않는다.** 통합 CSV, `data/logs/`, `data/logs_mixed/`, `data/parsed/`, `data/parsed_engine/`, `data/parsed_stale/`, `data/bench/`, `data/processed/`, `*.egg-info/`는 시드가 고정된 스크립트로 언제든 재현되므로 루트 `.gitignore`에 등록되어 있다. 새 생성물 폴더를 만들면 `.gitignore`에도 추가한다.
 
 ### 절 작업을 마친 뒤
 

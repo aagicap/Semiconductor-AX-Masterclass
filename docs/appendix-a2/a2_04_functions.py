@@ -33,9 +33,14 @@ def example_02() -> None:
     record = {"lot_id": "LOT_00", "wafer_id": "W_03",
               "worst_slack": 0.032}
     print(describe(**record))
+
+
+def example_02b() -> None:
+    """자주 하는 실수: 키 이름의 오타."""
+    bad_record = {"lot_id": "LOT_00", "wafer_id": "W_03",
+                  "worst_slak": 0.032}  # 오타
     try:
-        describe(**{"lot_id": "LOT_00", "wafer_id": "W_03",
-                    "worst_slak": 0.032})
+        print(describe(**bad_record))
     except TypeError as error:
         print(f"TypeError: {error}")
 
@@ -50,6 +55,6 @@ def example_03() -> None:
 
 
 if __name__ == "__main__":
-    for run in (example_01, example_02, example_03):
+    for run in (example_01, example_02, example_02b, example_03):
         print(f"--- {run.__name__}")
         run()
