@@ -15,22 +15,33 @@ from ax_text import pad
 WAFER_KEY = ["Lot_ID", "Wafer_ID"]
 
 
+def wafer_equipment(df: pd.DataFrame) -> pd.DataFrame:
+    """웨이퍼마다 장비 하나를 짝지은 표를 돌려준다.
+    한 웨이퍼에 장비가 둘 이상이면 멈춘다."""
+    pairs = df[WAFER_KEY + ["Equipment_ID"]].drop_duplicates()
+    if pairs.duplicated(WAFER_KEY).any():
+        raise ValueError("한 웨이퍼에 둘 이상의 Equipment_ID가 있다")
+    return pairs
+
+
 def by_equipment(df: pd.DataFrame) -> pd.DataFrame:
     """장비별 웨이퍼 수, 다이 수, 불량 다이 수, 불량률을 집계한다."""
-    dies = df.groupby("Equipment_ID").agg(
+    dies = df.groupby("Equipment_ID", observed=True).agg(
         dies=("Pass_Fail", "size"),
         fails=("Pass_Fail", lambda s: int((s == 0).sum())),
         rate=("Pass_Fail", fail_rate),
     )
     wafers = (
-        df.drop_duplicates(WAFER_KEY).groupby("Equipment_ID").size()
+        wafer_equipment(df)
+        .groupby("Equipment_ID", observed=True)
+        .size()
     )
     return dies.assign(wafers=wafers)
 
 
 def by_lot_equipment(df: pd.DataFrame) -> pd.DataFrame:
     """로트와 장비를 함께 키로 묶어 웨이퍼 수와 불량률을 펼친다."""
-    table = df.groupby(["Lot_ID", "Equipment_ID"]).agg(
+    table = df.groupby(["Lot_ID", "Equipment_ID"], observed=True).agg(
         wafers=("Wafer_ID", "nunique"),
         rate=("Pass_Fail", fail_rate),
     )
@@ -57,7 +68,9 @@ def report() -> None:
         f"  {len(df):>5}  {fails:>5}  {rate:>6.2f}%"
     )
     print("-" * 62)
-    lot = df.groupby("Lot_ID")["Pass_Fail"].agg(fail_rate)
+    lot = df.groupby("Lot_ID", observed=True)["Pass_Fail"].agg(
+        fail_rate
+    )
     table = by_lot_equipment(df)
     print("  로트     로트 전체   웨이퍼 A/B   A 불량률   B 불량률")
     for lot_id in table.index:
@@ -74,7 +87,7 @@ def report() -> None:
             f"      {a}     {r['ETCHER_B']:5.1f}%"
         )
     print("-" * 62)
-    print("  [확인 범위] 묶음별 다이 수와 불량 다이 수만 셌다")
+    print("  [확인 범위] 장비·로트별 구성과 불량률만 집계했다")
     print("  불량이 생긴 원인은 판단하지 않았다")
     print("=" * 62)
 

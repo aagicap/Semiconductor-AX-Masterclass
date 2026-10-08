@@ -31,7 +31,7 @@ def spread(values: pd.Series) -> dict[str, float]:
 
 def slack_cpk_by(df: pd.DataFrame, key: list[str]) -> pd.Series:
     """묶음별로 슬랙의 하한 Cpk를 계산한다."""
-    return df.groupby(key)["Worst_Slack"].agg(
+    return df.groupby(key, observed=True)["Worst_Slack"].agg(
         lambda s: cpk(s, lower=SLACK_LSL)
     )
 
@@ -57,7 +57,8 @@ def report() -> None:
         "  장비         평균  표준편차       5%     50%     95%    Cpk"
     )
     by_eq = slack_cpk_by(df, ["Equipment_ID"])
-    for name, part in df.groupby("Equipment_ID")["Worst_Slack"]:
+    groups = df.groupby("Equipment_ID", observed=True)
+    for name, part in groups["Worst_Slack"]:
         s = spread(part)
         print(
             f"  {pad(str(name), 10)}{s['mean']:7.3f}  {s['std']:8.3f}"
