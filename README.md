@@ -43,6 +43,7 @@ Semiconductor-AX-Masterclass/
 │   └─ log_generator.py          # 2장 타이밍 리포트 생성
 ├─ docs/                         # 저장소에서 제공하는 온라인 부록
 │   └─ appendix-a1/              # 부록 A-1 실습 환경 설치
+│   └─ appendix-a2/              # 부록 A-2 파이썬 코어 문법 브릿지 예제
 ├─ extras/
 │   └─ benchmark_hash_lookup.py  # 2.3절 표 2-4 측정 재현
 ├─ part1_python_automation/      # PART 1. 반도체 데이터와 파이썬 자동화
@@ -276,6 +277,7 @@ OPENAI_API_KEY=sk-...
 | 2026-10-06 | docs | 온라인 부록 A-1 추가 |
 | 2026-10-08 | README | 표 서식 오류 수정, 폴더 구조·설치 절차(PowerShell)·데이터 해석·온라인 부록 표를 현행화 |
 | 2026-10-08 | ax_stats.py, ch06 | 6장 실습 코드와 불량률·Cp·Cpk 공통 모듈 추가, pyproject에 ax_stats 등록(pip install -e . 재실행). 6.3은 예전 경고 문자열이 남은 설계 자산을 감지해 재생성 순서를 안내 |
+| 2026-10-08 | docs | 온라인 부록 A-2 예제 코드 추가 |
 
 ---
 
