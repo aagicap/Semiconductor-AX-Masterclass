@@ -40,6 +40,8 @@ PROCESS_COLUMNS = [
     "Error_Code",
 ]
 DESIGN_VALUES = ["Worst_Slack", "Leakage_Power", "Operating_Freq"]
+# 현재 log_generator.py가 쓰는 경고 문자열(ERR-G202에 대응)
+KNOWN_ALARMS = {"GAS_FLOW_WARN"}
 
 
 def load_design() -> pd.DataFrame:
@@ -52,6 +54,31 @@ def load_design() -> pd.DataFrame:
         payload = json.loads(path.read_text(encoding="utf-8"))
         records.extend(payload["records"])
     return pd.DataFrame(records).rename(columns=RENAME)
+
+
+def unknown_alarms(design: pd.DataFrame) -> list[str]:
+    """현재 생성기가 쓰지 않는 경고 문자열을 찾는다.
+    있으면 설계 자산이 예전 리포트로 만들어진 것이다."""
+    found = set(design["Alarm"].dropna().unique())
+    return sorted(found - KNOWN_ALARMS)
+
+
+def has_stale_alarms(design: pd.DataFrame) -> bool:
+    """예전 경고 문자열이 있으면 다시 만드는 순서를 출력한다."""
+    stale = unknown_alarms(design)
+    if not stale:
+        return False
+    names = ", ".join(stale)
+    print(f"  [FAIL] 예전 경고 문자열이 남아 있다 : {names}")
+    print("         리포트와 설계 자산을 다시 만든다(저장소 루트).")
+    for step in (
+        "data/log_generator.py",
+        "part1_python_automation/ch03/ch03_03_make_v5_logs.py",
+        "part1_python_automation/ch03/ch03_03_parsing_engine.py",
+    ):
+        print(f"         python {step}")
+    print("=" * 62)
+    return True
 
 
 def merge_design_process(
@@ -105,7 +132,8 @@ def show_wrong_keys(
         )
     except MergeError as error:
         print("  validate가 웨이퍼 키 병합을 멈춤: MergeError")
-        for part in str(error).split("; "):
+        head = str(error).splitlines()[0]  # 중복 행 목록은 뺀다
+        for part in head.split("; "):
             print(f"    {part}")
 
 
@@ -122,6 +150,8 @@ def report() -> None:
             "         3.3절 ch03_03_parsing_engine.py 를 먼저 실행한다."
         )
         print("=" * 62)
+        return
+    if has_stale_alarms(design):
         return
     csv = load_dataset()
     process = csv[KEY_COLUMNS + PROCESS_COLUMNS]
