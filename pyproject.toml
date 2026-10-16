@@ -17,6 +17,7 @@ package-dir = {"" = "part1_python_automation/ch03"}
 py-modules = [
     "ax_settings", "ax_text", "ax_sta", "ax_summary",
     "ax_hardware", "ax_engine", "ax_frame", "ax_stats",
+    "ax_plot",
 ]
 
 [tool.black]
