@@ -142,10 +142,10 @@ def draw(df: pd.DataFrame) -> plt.Figure:
     ax_kpi.text(
         0.5,
         0.5,
-        "   |   ".join(kpi_items(df)),
+        "  |  ".join(kpi_items(df)),
         ha="center",
         va="center",
-        fontsize=10,
+        fontsize=11.5,
         bbox={"boxstyle": "round", "fc": "#F3F5FB", "ec": "#C9D1E8"},
     )
     panel_trend(fig.add_subplot(gs[1, :]), df)
