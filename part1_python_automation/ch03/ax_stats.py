@@ -12,23 +12,20 @@ def fail_rate(pass_fail: pd.Series) -> float:
 
 
 def cp(values: pd.Series, lower: float, upper: float) -> float:
-    """기준 폭을 산포 폭(6σ)으로 나눈다. 중심 위치는 보지 않는다."""
+    """규격 폭을 산포 폭(6σ)으로 나눈다. 중심 위치는 보지 않는다."""
     return (upper - lower) / (6 * values.std())
 
 
-def cpk(
-    values: pd.Series,
-    lower: float | None = None,
-    upper: float | None = None,
-) -> float:
-    """평균에서 가까운 기준까지의 거리를 3σ로 나눈다.
-    한쪽 기준만 있으면 그쪽만 계산한다."""
-    if lower is None and upper is None:
-        raise ValueError("기준을 하나 이상 지정해야 한다")
-    mean, sigma = values.mean(), values.std()
-    gaps = []
-    if lower is not None:
-        gaps.append(mean - lower)
-    if upper is not None:
-        gaps.append(upper - mean)
-    return min(gaps) / (3 * sigma)
+def cpu(values: pd.Series, upper: float) -> float:
+    """평균에서 규격 상한까지의 여유를 3σ로 나눈다."""
+    return (upper - values.mean()) / (3 * values.std())
+
+
+def cpl(values: pd.Series, lower: float) -> float:
+    """평균에서 규격 하한까지의 여유를 3σ로 나눈다."""
+    return (values.mean() - lower) / (3 * values.std())
+
+
+def cpk(values: pd.Series, lower: float, upper: float) -> float:
+    """양쪽 규격 가운데 가까운 쪽의 여유. Cpu와 Cpl 중 작은 값이다."""
+    return min(cpu(values, upper), cpl(values, lower))

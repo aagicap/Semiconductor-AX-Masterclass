@@ -49,13 +49,13 @@ def show_wafers(wafers: pd.DataFrame) -> None:
             f"  {part.gas.mean():9.2f}"
         )
     print("-" * 62)
-    print("  [2] 웨이퍼 평균값 사이의 상관계수(장비별)")
+    print("  [2] 웨이퍼 평균값 사이의 피어슨 상관계수(장비별)")
     for name, part in wafers.groupby("equipment"):
         c = part[["temp", "gas", "rate"]].corr()
         tg, tr = c.loc["temp", "gas"], c.loc["temp", "rate"]
         print(
-            f"  {pad(str(name), 12)}온도-유량 {tg:5.2f}"
-            f"  온도-불량률 {tr:5.2f}"
+            f"  {pad(str(name), 10)}n={len(part):<3}"
+            f" 온도-유량 {tg:5.2f}  온도-불량률 {tr:5.2f}"
         )
 
 

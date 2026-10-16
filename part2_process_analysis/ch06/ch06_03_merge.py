@@ -168,8 +168,8 @@ def report() -> None:
     merged = merge_design_process(design, process)
     sides = merged["_merge"].value_counts()
     print(
-        f"  {pad('병합 결과', 16)}{len(merged):>6}행"
-        f" {merged.shape[1] - 1:>3}열"
+        f"  {pad('병합 직후', 16)}{len(merged):>6}행"
+        f" {merged.shape[1]:>3}열 (_merge 표시 열 포함)"
     )
     print(
         f"  {pad('짝 확인', 16)}양쪽 {sides['both']}"
@@ -182,9 +182,11 @@ def report() -> None:
     print("-" * 62)
     show_wrong_keys(csv, design, process)
     print("-" * 62)
+    saved = merged.drop(columns="_merge")  # 검증용 열은 저장하지 않는다
     OUT_PATH.parent.mkdir(exist_ok=True)
-    merged.drop(columns="_merge").to_csv(OUT_PATH, index=False)
+    saved.to_csv(OUT_PATH, index=False)
     print(f"  저장 경로 : {OUT_PATH.relative_to(REPO_ROOT)}")
+    print(f"  저장한 표 : {len(saved)}행 {saved.shape[1]}열")
     print("  [확인 범위] 키의 짝과 값의 일치만 확인했다")
     print("  설계 값과 공정 값의 관계는 판단하지 않았다")
     print("=" * 62)
