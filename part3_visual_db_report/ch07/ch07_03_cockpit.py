@@ -47,11 +47,11 @@ def die_map(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def map_spread(df: pd.DataFrame) -> tuple[float, float]:
-    """좌표별 불량률의 표준편차와, 위치 차이가 없을 때의 기댓값(%p)."""
+    """좌표별 불량률의 실제 표준편차와 위치 무관 모형의 표준편차(%p)."""
     p = df.groupby(WAFER_KEY, observed=True)["Pass_Fail"].agg(fail_rate)
     p = p / 100
-    expected = np.sqrt((p * (1 - p)).sum()) / len(p) * 100
-    return float(die_map(df).stack().std(ddof=0)), float(expected)
+    model_sd = np.sqrt((p * (1 - p)).sum()) / len(p) * 100
+    return float(die_map(df).stack().std(ddof=0)), float(model_sd)
 
 
 def panel_trend(ax: Axes, df: pd.DataFrame) -> None:
@@ -160,7 +160,7 @@ def report() -> None:
     """상태 요약과 좌표 맵의 흩어짐을 출력하고 콕핏을 저장한다."""
     configure_plot()
     df = load_dataset()
-    spread, expected = map_spread(df)
+    spread, model_sd = map_spread(df)
     rates = die_map(df).stack()
     print("=" * 60)
     print(" 설계·공정 통합 엔지니어링 콕핏")
@@ -174,10 +174,8 @@ def report() -> None:
         f"      좌표 {rates.size}개  최소 {rates.min():.1f}"
         f"  최대 {rates.max():.1f}"
     )
-    print(f"      {pad('좌표 사이 표준편차', 28)}{spread:.2f}%p")
-    print(
-        f"      {pad('위치 차이가 없을 때 기댓값', 28)}{expected:.2f}%p"
-    )
+    print(f"      {pad('좌표 사이 실제 표준편차', 32)}{spread:.2f}%p")
+    print(f"      {pad('위치 무관 모형 표준편차', 32)}{model_sd:.2f}%p")
     print("-" * 60)
     path = save_figure(draw(df), FIG_PATH)
     print(f"  그림 저장: {path.as_posix()}")

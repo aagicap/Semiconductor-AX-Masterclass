@@ -20,7 +20,7 @@ FONT_CANDIDATES = [
     "NanumGothic",
     "Noto Sans CJK KR",
 ]
-# 지면 본문 폭(약 14.8cm)에 맞춘 그림 가로 길이(인치)
+# 본문 폭(약 14.8cm)으로 줄여 넣을 원본 그림의 가로 길이(인치)
 PAGE_WIDTH = 7.5
 # 장비 색. 같은 장비는 모든 그림에서 같은 색으로 그린다
 EQUIPMENT_COLORS = {"ETCHER_A": "#2F6BDB", "ETCHER_B": "#D6457A"}
