@@ -45,7 +45,7 @@ JSON_TO_CSV = {
 }
 
 SCHEMA = """
-CREATE TABLE IF NOT EXISTS design_path (
+CREATE TABLE IF NOT EXISTS design_die (
     Lot_ID         TEXT    NOT NULL,
     Wafer_ID       TEXT    NOT NULL,
     Die_X          INTEGER NOT NULL,
@@ -77,9 +77,10 @@ CREATE TABLE IF NOT EXISTS process_die (
 
 
 def connect(path: Path) -> sqlite3.Connection:
-    """데이터베이스 파일을 연다. 없으면 폴더와 파일을 만든다."""
+    """데이터베이스 파일을 연다. 없으면 폴더와 파일을 만든다.
+    트랜잭션 동작을 환경 기본값에 맡기지 않고 직접 정한다."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    return sqlite3.connect(path)
+    return sqlite3.connect(path, autocommit=False)
 
 
 def create_tables(con: sqlite3.Connection) -> None:
@@ -121,11 +122,20 @@ def design_table(
     core: pd.DataFrame, design: pd.DataFrame
 ) -> pd.DataFrame:
     """설계 레코드에 통합 CSV의 Voltage(설계 분석 조건)를 붙인다.
-    키가 1:1로 맞지 않으면 MergeError로 멈춘다."""
+    validate는 키 중복을, _merge는 짝 누락을 확인한다."""
     volt = core[KEY_COLUMNS + ["Voltage"]].astype(
         {"Lot_ID": str, "Wafer_ID": str}
     )
-    table = design.merge(volt, on=KEY_COLUMNS, validate="one_to_one")
+    table = design.merge(
+        volt,
+        on=KEY_COLUMNS,
+        how="outer",
+        validate="one_to_one",
+        indicator=True,
+    )
+    unmatched = int((table["_merge"] != "both").sum())
+    if unmatched:
+        raise ValueError(f"짝이 없는 키가 {unmatched}개 있다")
     return table[DESIGN_COLUMNS]
 
 

@@ -25,12 +25,12 @@ from ax_text import pad
 
 # (항목, 원본에서 기대하는 값, 데이터베이스에 묻는 SQL)
 CHECKS = [
-    ("design_path 행 수", 5000, "SELECT COUNT(*) FROM design_path"),
+    ("design_die 행 수", 5000, "SELECT COUNT(*) FROM design_die"),
     ("process_die 행 수", 5000, "SELECT COUNT(*) FROM process_die"),
     (
         "Leakage_Power NULL",
         125,
-        "SELECT COUNT(*) FROM design_path WHERE Leakage_Power IS NULL",
+        "SELECT COUNT(*) FROM design_die WHERE Leakage_Power IS NULL",
     ),
     (
         "불량(Pass_Fail = 0)",
@@ -46,21 +46,21 @@ CHECKS = [
     (
         "키로 이은 행 수",
         5000,
-        "SELECT COUNT(*) FROM design_path "
+        "SELECT COUNT(*) FROM design_die "
         "JOIN process_die USING (Lot_ID, Wafer_ID, Die_X, Die_Y)",
     ),
 ]
 
 
 def build(con: sqlite3.Connection) -> tuple[int, int]:
-    """두 테이블을 만들고 한 번의 트랜잭션으로 적재한다."""
+    """테이블 준비와 두 테이블의 적재를 한 번의 트랜잭션으로 한다."""
     core = load_dataset()
     design = to_rows(design_table(core, load_design()))
     process = to_rows(process_table(core))
-    create_tables(con)
     with con:  # 성공하면 commit, 예외가 나면 rollback
+        create_tables(con)
         con.executemany(
-            insert_sql("design_path", DESIGN_COLUMNS), design
+            insert_sql("design_die", DESIGN_COLUMNS), design
         )
         con.executemany(
             insert_sql("process_die", PROCESS_COLUMNS), process
@@ -90,7 +90,7 @@ def report() -> None:
         print(" SQLite 분석 데이터베이스 적재")
         print("=" * 56)
         print(
-            f"  적재 design_path {n_design:,}행 / "
+            f"  적재 design_die {n_design:,}행 / "
             f"process_die {n_process:,}행"
         )
         print("-" * 56)
