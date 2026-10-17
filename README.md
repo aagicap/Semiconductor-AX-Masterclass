@@ -287,6 +287,8 @@ OPENAI_API_KEY=sk-...
 | 2026-10-16 | ax_plot.py, ch07_03 | PAGE_WIDTH 주석 정정. 7.3 좌표 맵 비교 기준을 '위치 무관 모형 표준편차'로 명칭 변경(계산은 동일), 요약 띠 글자 11.5pt |
 | 2026-10-17 | check_environment.py | pyarrow 점검 추가. pyproject.toml에 등록된 ax_ 공통 모듈을 모두 불러와 보고 재설치가 필요한 모듈을 알림. 마지막 줄에 종합 판정 |
 | 2026-10-17 | ax_db.py, ch08_01 | 8.1절 SQLite 분석 데이터베이스(design_die·process_die 두 테이블, 복합 기본 키, CHECK 제약) 적재와 SQL 재계수 대조. 공통 모듈 ax_db 등록(pip install -e . 재실행 필요) |
+| 2026-10-17 | ch08_02 | 8.2절 SQL 질문 세 가지(로트별 불량률, 네 열 키 JOIN, 장비·기간 조건)와 (Equipment_ID, Timestamp) 인덱스 전후의 실행 계획·조회 시간·사용 크기 비교 |
+| 2026-10-17 | extras/benchmark_sqlite_index.py | 8.2절 온라인 심화 자료의 행 수별 인덱스 전후 조회 시간 측정 재현(측정용 복제 파일은 data/bench/에 만들고 끝나면 지움) |
 
 ---
 
