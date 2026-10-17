@@ -46,6 +46,7 @@ part5_rag_capstone/          ch12/ ch13/
   - 4장부터 통합 CSV는 `ax_frame.load_dataset()`로 읽고, 무결성 점검은 `ax_frame.check_integrity()`를 쓴다.
   - 6장부터 불량률과 공정능력지수는 `ax_stats.py`의 `fail_rate()`, `cp()`, `cpu()`, `cpl()`, `cpk()`를 쓴다. `cpk()`는 양쪽 규격이 모두 있을 때만 쓰고, 하한만 있으면 `cpl()`, 상한만 있으면 `cpu()`를 쓴다.
   - 7장부터 그래프는 `ax_plot.py`를 쓴다. 그림을 만들기 전에 `configure_plot()`을 호출하고, 저장은 `save_figure()`로 한다. 그림 가로 길이는 `PAGE_WIDTH`, 장비 색은 `EQUIPMENT_COLORS`를 쓴다.
+  - 8장부터 SQLite 분석 데이터베이스는 `ax_db.py`의 스키마(`SCHEMA`)와 함수(`connect()`, `create_tables()`, `to_rows()`, `insert_sql()`, `load_design()`, `design_table()`, `process_table()`)를 쓴다. 열 이름은 통합 CSV와 같게 두고, 시각은 ISO 8601 문자열, NaN은 NULL로 명시해 바꾼다. 값은 문자열로 이어 붙이지 않고 `?` 자리표시자로 넘긴다. `with con:`은 commit·rollback만 맡으므로 연결은 `finally`에서 직접 닫는다.
   - 공통 모듈은 모두 `part1_python_automation/ch03/`에 두고 `pyproject.toml`의 `py-modules`에 등록한다. 새 모듈을 등록하면 `pip install -e .`를 다시 실행하고 README 갱신 이력에 적는다. `pyproject.toml`에 같은 표(`[tool.xxx]`)를 두 번 선언하지 않는다.
 
 ---
