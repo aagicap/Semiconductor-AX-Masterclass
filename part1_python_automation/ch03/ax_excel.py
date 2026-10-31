@@ -19,6 +19,7 @@ FORMATS = {
     "count": "#,##0",  # 다이 수, 불량 수
     "rate": "0.0%",  # 비율. 0.2는 20.0%로 보인다
     "value": "0.00",  # 측정·분석 값
+    "value3": "0.000",  # 슬랙처럼 셋째 자리까지 보는 값
     "time": "yyyy-mm-dd hh:mm",  # 관측 시각
     "date": "yyyy-mm-dd",  # 완료일 같은 날짜
     "text": "@",  # 식별자
@@ -61,3 +62,21 @@ def set_widths(ws: Worksheet, widths: Sequence[float]) -> None:
     """열 너비를 앞에서부터 차례로 정한다(단위: 글자 수)."""
     for col, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(col)].width = width
+
+
+def apply_formats(
+    ws: Worksheet, kinds: Sequence[str], header_row: int = 1
+) -> None:
+    """이미 기록된 표에 머리 행 스타일과 열별 표시 형식을 입힌다.
+    셀 값은 바꾸지 않는다. to_excel()로 쓴 시트에 쓴다."""
+    if ws.max_column != len(kinds):
+        raise ValueError("시트와 형식의 열 수가 다르다")
+    for cell in ws[header_row]:
+        cell.font = HEADER_FONT
+        cell.fill = HEADER_FILL
+        cell.alignment = Alignment(horizontal="center")
+        cell.border = BOX
+    for row in ws.iter_rows(min_row=header_row + 1):
+        for cell, kind in zip(row, kinds):
+            cell.number_format = FORMATS[kind]
+            cell.border = BOX
