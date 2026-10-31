@@ -83,6 +83,13 @@ def connect(path: Path) -> sqlite3.Connection:
     return sqlite3.connect(path, autocommit=False)
 
 
+def connect_readonly(path: Path) -> sqlite3.Connection:
+    """조회 전용으로 연다. 파일이 없으면 새로 만들지 않고 오류를 낸다.
+    경로를 잘못 주었을 때 빈 데이터베이스를 읽는 일을 막는다."""
+    uri = path.resolve().as_uri() + "?mode=ro"
+    return sqlite3.connect(uri, uri=True, autocommit=False)
+
+
 def create_tables(con: sqlite3.Connection) -> None:
     """두 테이블을 만든다. 이미 있으면 그대로 둔다."""
     con.executescript(SCHEMA)

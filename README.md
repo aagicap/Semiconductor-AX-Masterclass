@@ -289,6 +289,8 @@ OPENAI_API_KEY=sk-...
 | 2026-10-17 | ax_db.py, ch08_01 | 8.1절 SQLite 분석 데이터베이스(design_die·process_die 두 테이블, 복합 기본 키, CHECK 제약) 적재와 SQL 재계수 대조. 공통 모듈 ax_db 등록(pip install -e . 재실행 필요) |
 | 2026-10-17 | ch08_02 | 8.2절 SQL 질문 세 가지(로트별 불량률, 네 열 키 JOIN, 장비·기간 조건)와 (Equipment_ID, Timestamp) 인덱스 전후의 실행 계획·조회 시간·사용 크기 비교 |
 | 2026-10-17 | extras/benchmark_sqlite_index.py | 8.2절 온라인 심화 자료의 행 수별 인덱스 전후 조회 시간 측정 재현(측정용 복제 파일은 data/bench/에 만들고 끝나면 지움) |
+| 2026-10-17 | ch08_03 | 8.3절 미니 프로젝트 모범 답안: 입고 배치 단위 ETL(ON CONFLICT DO NOTHING 재실행 안전, 배치 단위 롤백, 실패 이력은 별도 트랜잭션), 별도 파일 alphachip_etl.db |
+| 2026-10-17 | ch08_03 | 스키마 준비(prepare)를 배치 트랜잭션보다 먼저 확정해 첫 배치가 실패해도 테이블과 FAILED 이력이 남게 함. 이력 열 rows_in을 rows_attempted(두 테이블 적재 시도 행 수의 합)로 바꾸고 출력도 '적재 시도'로 표기 |
 
 ---
 
