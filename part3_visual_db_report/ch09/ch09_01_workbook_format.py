@@ -54,7 +54,7 @@ def fetch_lots() -> list[tuple]:
 def build(rows: list[tuple]) -> Workbook:
     """정보 시트와 요약 시트를 가진 워크북을 만든다."""
     wb = Workbook()
-    info = wb.active
+    info = wb.worksheets[0]  # 새 워크북에 기본으로 있는 시트
     info.title = "정보"
     info.append(["항목", "내용"])
     info.append(["입력 데이터베이스", ETL_DB.name])

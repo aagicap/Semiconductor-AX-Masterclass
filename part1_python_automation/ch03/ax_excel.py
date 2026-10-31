@@ -4,6 +4,8 @@ ax_excel.py
 않고 이 모듈의 규칙을 불러 쓴다. 불러오기만 해서는 파일을 만들지 않는다.
 """
 
+from collections.abc import Sequence
+
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
@@ -39,6 +41,9 @@ def write_table(
     kinds는 열마다 FORMATS의 키 하나를 고른다."""
     if len(headers) != len(kinds):
         raise ValueError("머리 행과 형식의 열 수가 다르다")
+    for n, values in enumerate(rows, start=1):
+        if len(values) != len(kinds):
+            raise ValueError(f"{n}번째 데이터 행의 열 수가 다르다")
     for col, name in enumerate(headers, start=1):
         cell = ws.cell(row=start_row, column=col, value=name)
         cell.font = HEADER_FONT
@@ -52,7 +57,7 @@ def write_table(
             cell.border = BOX
 
 
-def set_widths(ws: Worksheet, widths: list[float]) -> None:
+def set_widths(ws: Worksheet, widths: Sequence[float]) -> None:
     """열 너비를 앞에서부터 차례로 정한다(단위: 글자 수)."""
     for col, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(col)].width = width
