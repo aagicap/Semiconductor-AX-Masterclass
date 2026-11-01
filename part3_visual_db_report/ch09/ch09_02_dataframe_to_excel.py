@@ -97,7 +97,7 @@ def compare(name: str, written: pd.DataFrame) -> pd.DataFrame:
         sheet_name=name,
         dtype={"Lot_ID": str, "Wafer_ID": str},
     )
-    pd.testing.assert_frame_equal(written, back, rtol=1e-12)
+    pd.testing.assert_frame_equal(written, back, check_exact=True)
     return back
 
 
@@ -139,8 +139,8 @@ def main() -> None:
         name: compare(name, frame) for name, frame in tables.items()
     }
     report(back, sql)
-    print("  [확인 범위] 두 시트의 모든 값과 빈 셀 위치를 기록 전 표와")
-    print("              대조했다. 서식은 보지 않았다")
+    print("  [확인 범위] 값과 빈 셀 위치는 기록 전 표와 대조했다.")
+    print("              SQL 값은 출력만 했고, 서식은 보지 않았다")
     print("=" * 56)
 
 
