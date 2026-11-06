@@ -230,3 +230,4 @@ data/parsed_engine/
 data/parsed_stale/
 data/bench/
 data/processed/
+requirements-lock.txt
