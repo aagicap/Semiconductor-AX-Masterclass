@@ -286,6 +286,7 @@ OPENAI_API_KEY=sk-...
 | 2026-11-06 | ch01 | 1.2절과 1.3절 순서 교체(1.2 가상환경, 1.3 Remote-SSH). `ch01_03_venv_check.py`를 `ch01_02_venv_check.py`로, `ch01_02_remote_check.py`를 `ch01_03_remote_check.py`로 이름 변경. 원격 점검 스크립트에서 가상환경 판정 제거 |
 | 2026-11-06 | docs/appendix-a1 | 온라인 부록 A-1을 최신판(V0.58)으로 갱신. 본문 절 참조를 1.2절(가상환경)·1.3절(Remote-SSH) 순서에 맞춤 |
 | 2026-11-07 | ch03 | `ch03_01_module_pipeline.py`·`ch03_01_make_stale_json.py`·`ch03_03_make_v5_logs.py`·`ch03_03_parsing_engine.py`의 출력 경로를 저장소 루트 기준 상대 경로로 변경 |
+| 2026-11-07 | ch03/ax_frame.py | `COLUMNS` 목록을 한 줄 여러 항목으로 정리(`# fmt: skip`)해 4.1·4.3절 지면의 줄 번호와 일치시킴. 동작 변경 없음 |
 
 ---
 

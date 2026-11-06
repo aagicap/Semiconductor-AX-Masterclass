@@ -38,23 +38,11 @@ def load_dataset(path: Path = CSV_PATH) -> pd.DataFrame:
 
 # 4.3 무결성 점검 기준. 스키마 문서가 정한 값만 쓴다
 COLUMNS = [
-    "Timestamp",
-    "Lot_ID",
-    "Wafer_ID",
-    "Die_X",
-    "Die_Y",
-    "Equipment_ID",
-    "Path_ID",
-    "Voltage",
-    "Chamber_Temp",
-    "Pressure",
-    "Gas_Flow",
-    "Operating_Freq",
-    "Worst_Slack",
-    "Leakage_Power",
-    "Pass_Fail",
-    "Error_Code",
-]
+    "Timestamp", "Lot_ID", "Wafer_ID", "Die_X", "Die_Y",
+    "Equipment_ID", "Path_ID", "Voltage", "Chamber_Temp",
+    "Pressure", "Gas_Flow", "Operating_Freq", "Worst_Slack",
+    "Leakage_Power", "Pass_Fail", "Error_Code",
+]  # fmt: skip
 KEY_COLUMNS = ["Lot_ID", "Wafer_ID", "Die_X", "Die_Y"]
 MISSING_ALLOWED = {"Leakage_Power": 125}  # 결측이 예정된 열과 개수
 ERROR_CODES = ["NORMAL", "ERR-T101", "ERR-G202"]
