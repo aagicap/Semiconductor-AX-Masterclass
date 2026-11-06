@@ -37,7 +37,7 @@ Semiconductor-AX-Masterclass/
 ├─ pyproject.toml                # 공통 모듈 설치(pip install -e .)·서식 도구 설정
 ├─ check_environment.py          # 설치 직후 환경 점검 도구
 ├─ .vscode/
-│   └─ settings.json             # 공유 워크스페이스 설정(1.2절)
+│   └─ settings.json             # 공유 워크스페이스 설정(1.3절)
 ├─ data/
 │   ├─ data_generator.py         # 통합 데이터셋(CSV) 생성
 │   └─ log_generator.py          # 2장 타이밍 리포트 생성
@@ -71,7 +71,7 @@ Semiconductor-AX-Masterclass/
 ### 파일명 규칙
 
 - 실습 스크립트는 `chXX_YY_기능이름.py`입니다. XX는 장, YY는 절 번호이며 모두 소문자입니다.
-  - 예: `part1_python_automation/ch01/ch01_02_remote_check.py` → 1장 2절 실습 코드
+  - 예: `part1_python_automation/ch01/ch01_03_remote_check.py` → 1장 3절 실습 코드
 - 여러 절이 함께 불러 쓰는 공통 모듈은 절 번호 없이 `ax_` 접두어를 붙여 `part1_python_automation/ch03/`에 둡니다(`ax_settings.py`, `ax_frame.py` 등).
 
 ### 커밋하지 않는 생성물
@@ -123,13 +123,13 @@ pip install -e .
 
 macOS·리눅스에서는 2)의 활성화 명령을 `source .venv/bin/activate`로, 경로 구분자 `\`를 `/`로 바꿉니다.
 
-`check_environment.py`의 마지막 `[결과]` 줄이 `PASS`이고 가상환경 격리도 `PASS`이면 준비가 끝난 것입니다. 1~3장만 실습할 때는 6)을 하지 않았으므로 공통 모듈 줄이 `FAIL`로 나와도 됩니다. PowerShell에서 활성화 스크립트 실행이 막히면 부록 A-1의 실행 정책 항목을 참고합니다.
+`check_environment.py`가 가상환경 격리를 `PASS`로, 패키지를 모두 `OK`로 출력하면 준비가 끝난 것입니다. PowerShell에서 활성화 스크립트 실행이 막히면 부록 A-1의 실행 정책 항목을 참고합니다.
 
 > **가상환경 폴더명은 반드시 `.venv`로 만듭니다.** `.vscode/settings.json`이 인터프리터 경로를 `.venv` 기준으로 고정해 두었기 때문에, `venv`나 `env` 같은 다른 이름을 쓰면 VS Code가 시스템 파이썬을 선택합니다. 이미 다른 이름으로 만들었다면 폴더를 지우고 다시 만드세요. 가상환경은 내부에 경로를 절대 경로로 기록하므로 이름만 바꾸거나 폴더를 옮기면 정상 동작하지 않습니다.
 
 > **저장소를 갱신해 새 `ax_` 공통 모듈이 추가되면** `pip install -e .`를 다시 실행합니다. 기존 모듈에 함수만 더해진 경우에는 다시 설치하지 않아도 됩니다.
 
-### 편집기 설정 (1.2절)
+### 편집기 설정 (1.3절)
 
 저장소 루트의 `.vscode/settings.json`은 이 프로젝트를 여는 모든 사람에게 같은 규칙을 적용합니다. 인터프리터 경로, 저장 시 자동 서식, 줄바꿈 문자와 인코딩이 고정되어 있어 운영체제가 달라도 결과가 갈리지 않습니다.
 
@@ -156,15 +156,17 @@ macOS와 리눅스에서 실습한다면 이 줄만 아래와 같이 바꿉니�
 | Black Formatter | 저장 시 코드 서식 자동 통일 |
 | Remote - SSH | 원격 서버 접속 개발(선택) |
 
-### 원격 개발 환경 (1.2절)
+### 원격 개발 환경 (1.3절)
 
 소속 조직이 승인한 분석 서버에서 실습하는 경우 VS Code Remote-SSH로 접속한 뒤, 저장소 루트에서 다음을 실행해 현재 실행 위치를 확인합니다. 원격 서버가 없어도 모든 실습은 로컬에서 진행할 수 있습니다.
 
 ```powershell
-python part1_python_automation\ch01\ch01_02_remote_check.py
+python part1_python_automation\ch01\ch01_03_remote_check.py
 ```
 
-세션 유형, 인터프리터 경로, 작업 디렉터리, 데이터 접근 가능 여부가 한 화면에 출력됩니다. 분석 결과가 재현되지 않을 때 가장 먼저 확인할 정보입니다.
+macOS·리눅스와 리눅스 원격 서버에서는 경로 구분자를 `/`로 바꿔 `python part1_python_automation/ch01/ch01_03_remote_check.py`로 실행합니다.
+
+세션 유형, 인터프리터 경로, 작업 디렉터리, 데이터 접근 가능 여부가 한 화면에 출력됩니다. 가상환경 격리 여부는 `part1_python_automation/ch01/ch01_02_venv_check.py`(1.2절)로 확인합니다. 분석 결과가 재현되지 않을 때 가장 먼저 확인할 정보입니다.
 
 ### API 키 설정 (1.5절 / 12~13장 실습)
 
@@ -260,7 +262,7 @@ OPENAI_API_KEY=sk-...
 | 날짜 | 대상 | 내용 |
 |---|---|---|
 | 2026-09-12 | README | 온라인 부록 3종 재편(A 실습 준비 / B API 발급 / C 확장), 가상환경 폴더명 `.venv`로 통일 |
-| 2026-09-12 | ch01 | `ch01_02_remote_check.py`, `.vscode/settings.json` 추가 |
+| 2026-09-12 | ch01 | 원격 실행 위치 점검 스크립트, `.vscode/settings.json` 추가 |
 | 2026-09-13 | .vscode | 인터프리터 경로를 윈도우 기준(`.venv/Scripts/python.exe`)으로 정정, 파일 감시 제외에 `.venv` 추가 |
 | 2026-09-13 | README | 편집기 설정 절 신설, 가상환경 폴더명 규칙 보강 |
 | 2026-09-13 | 루트 | `pyproject.toml` 추가, 서식 도구 줄 길이 72자 고정 |
@@ -280,18 +282,10 @@ OPENAI_API_KEY=sk-...
 | 2026-10-08 | docs | 온라인 부록 A-2 예제 코드 추가 |
 | 2026-10-08 | ch06_01, ch06_02 | groupby에 observed=True 명시, 웨이퍼–장비 짝 검증 추가, 6.1 확인 범위 문구 수정 |
 | 2026-10-10 | ax_stats.py, ch06_02~04 | `cpu()`·`cpl()` 추가, `cpk()`는 양쪽 규격 전용으로 변경. 슬랙(하한만)은 Cpl로 출력. 6.3은 병합 직후 17열(_merge 포함)과 저장 16열을 구분해 출력, 6.4는 상관계수에 표본 수(n) 표시 |
-| 2026-10-16 | ax_plot.py, ch07_01 | 한글 글꼴·음수 부호 설정과 그림 저장 공통 모듈 추가, pyproject에 ax_plot 등록(pip install -e . 재실행). 7.1절 장비별 일 평균 트렌드(관측 없는 날은 NaN으로 선을 끊음) |
-| 2026-10-16 | ch07_02 | 7.2절 장비별 웨이퍼 수율 바이올린 플롯과 전압 x 챔버 온도 구간별 평균 슬랙 히트맵(구간 경계는 시각화용 상수, 칸별 다이 수 함께 출력) |
-| 2026-10-16 | ch07_03 | 7.3절 GridSpec 설계·공정 통합 콕핏(요약 띠와 다섯 패널, 50웨이퍼 누적 다이 좌표별 불량률과 위치 차이가 없을 때의 기댓값 비교). 7.1·7.2절 집계 함수를 불러 씀 |
-| 2026-10-16 | CLAUDE.md | 공통 모듈 목록에 ax_stats(6장)·ax_plot(7장) 추가, 그래프 작성 규칙 신설 |
-| 2026-10-16 | ax_plot.py, ch07_03 | PAGE_WIDTH 주석 정정. 7.3 좌표 맵 비교 기준을 '위치 무관 모형 표준편차'로 명칭 변경(계산은 동일), 요약 띠 글자 11.5pt |
-| 2026-10-17 | check_environment.py | pyarrow 점검 추가. pyproject.toml에 등록된 ax_ 공통 모듈을 모두 불러와 보고 재설치가 필요한 모듈을 알림. 마지막 줄에 종합 판정 |
-| 2026-10-17 | ax_db.py, ch08_01 | 8.1절 SQLite 분석 데이터베이스(design_die·process_die 두 테이블, 복합 기본 키, CHECK 제약) 적재와 SQL 재계수 대조. 공통 모듈 ax_db 등록(pip install -e . 재실행 필요) |
-| 2026-10-17 | ch08_02 | 8.2절 SQL 질문 세 가지(로트별 불량률, 네 열 키 JOIN, 장비·기간 조건)와 (Equipment_ID, Timestamp) 인덱스 전후의 실행 계획·조회 시간·사용 크기 비교 |
-| 2026-10-17 | extras/benchmark_sqlite_index.py | 8.2절 온라인 심화 자료의 행 수별 인덱스 전후 조회 시간 측정 재현(측정용 복제 파일은 data/bench/에 만들고 끝나면 지움) |
-| 2026-10-17 | ch08_03 | 8.3절 미니 프로젝트 모범 답안: 입고 배치 단위 ETL(ON CONFLICT DO NOTHING 재실행 안전, 배치 단위 롤백, 실패 이력은 별도 트랜잭션), 별도 파일 alphachip_etl.db |
-| 2026-10-17 | ch08_03 | 스키마 준비(prepare)를 배치 트랜잭션보다 먼저 확정해 첫 배치가 실패해도 테이블과 FAILED 이력이 남게 함. 이력 열 rows_in을 rows_attempted(두 테이블 적재 시도 행 수의 합)로 바꾸고 출력도 '적재 시도'로 표기 |
-| 2026-10-31 | 9.1절 | ax_excel 신설(열 수 확인), ax_db.connect_readonly 추가, openpyxl·pyarrow 명시 |
+| 2026-11-06 | ch01 | 1.3절 실행 명령의 경로 구분자를 윈도우 기준 `\`로 통일하고 macOS·리눅스용 안내를 병기 |
+| 2026-11-06 | ch01 | 1.2절과 1.3절 순서 교체(1.2 가상환경, 1.3 Remote-SSH). `ch01_03_venv_check.py`를 `ch01_02_venv_check.py`로, `ch01_02_remote_check.py`를 `ch01_03_remote_check.py`로 이름 변경. 원격 점검 스크립트에서 가상환경 판정 제거 |
+| 2026-11-06 | docs/appendix-a1 | 온라인 부록 A-1을 최신판(V0.58)으로 갱신. 본문 절 참조를 1.2절(가상환경)·1.3절(Remote-SSH) 순서에 맞춤 |
+| 2026-11-07 | ch03 | `ch03_01_module_pipeline.py`·`ch03_01_make_stale_json.py`·`ch03_03_make_v5_logs.py`·`ch03_03_parsing_engine.py`의 출력 경로를 저장소 루트 기준 상대 경로로 변경 |
 
 ---
 

@@ -8,7 +8,7 @@ import json
 import sys
 from pathlib import Path
 
-from ax_settings import LOG_DIR, PARSED_DIR, THRESHOLD
+from ax_settings import LOG_DIR, PARSED_DIR, REPO_ROOT, THRESHOLD
 from ax_sta import load_records
 from ax_summary import group_by_lot, summarize
 from ax_text import pad
@@ -37,11 +37,11 @@ def report(compare_dir: Path) -> None:
         return
 
     print(f"  관찰 기준 : 슬랙 {THRESHOLD} ns 미만")
-    print(f"  대조 대상 : {compare_dir.resolve()}")
+    shown = compare_dir.resolve().relative_to(REPO_ROOT, walk_up=True)
+    print(f"  대조 대상 : {shown}")
     print("-" * 62)
     print(f"  {pad('로트', 10)}{pad('건수', 8)}{pad('위험', 8)}대조")
     print("-" * 62)
-
     compared = matched = 0
     for lot_id, group in sorted(group_by_lot(records).items()):
         summary = summarize(group, THRESHOLD)

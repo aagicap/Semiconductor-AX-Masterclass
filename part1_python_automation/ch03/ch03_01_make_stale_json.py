@@ -7,7 +7,7 @@ ch03_01_make_stale_json.py
 
 import json
 
-from ax_settings import DATA_DIR, LOG_DIR
+from ax_settings import DATA_DIR, LOG_DIR, REPO_ROOT
 from ax_sta import load_records
 from ax_summary import group_by_lot, summarize
 
@@ -35,7 +35,7 @@ def main() -> None:
             encoding="utf-8",
         )
     print(f"로트 {len(groups)}개 저장 (기준 {STALE_THRESHOLD})")
-    print(f"저장 경로 : {STALE_DIR}")
+    print(f"저장 경로 : {STALE_DIR.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":

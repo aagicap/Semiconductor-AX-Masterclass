@@ -13,7 +13,7 @@ from ax_engine import (
     StaParserV5,
     build_payload,
 )
-from ax_settings import DATA_DIR, PARSED_DIR, THRESHOLD
+from ax_settings import DATA_DIR, PARSED_DIR, REPO_ROOT, THRESHOLD
 from ax_text import pad
 
 MIXED_DIR = DATA_DIR / "logs_mixed"
@@ -85,7 +85,7 @@ def report() -> None:
     print("-" * 62)
     print(f"  2.4절 JSON과 일치한 로트 : {matched}/{len(lots)}")
     print("  [확인 범위] generated_at을 뺀 요약·레코드 전 항목 대조")
-    print(f"  저장 경로 : {OUT_DIR}")
+    print(f"  저장 경로 : {OUT_DIR.relative_to(REPO_ROOT)}")
     print("=" * 62)
 
 

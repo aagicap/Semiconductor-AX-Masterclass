@@ -8,7 +8,7 @@ TimingSign v5 형식(쉼표 구분 열)으로 다시 쓴다. 새 난수는 없�
 import re
 import shutil
 
-from ax_settings import DATA_DIR, LOG_DIR, PATTERN
+from ax_settings import DATA_DIR, LOG_DIR, PATTERN, REPO_ROOT
 from ax_sta import parse_file
 
 MIXED_DIR = DATA_DIR / "logs_mixed"
@@ -73,7 +73,7 @@ def main() -> None:
         else:
             shutil.copyfile(src, dst)
             print(f"  {src.name}  v4 원본 복사")
-    print(f"저장 경로 : {MIXED_DIR}")
+    print(f"저장 경로 : {MIXED_DIR.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":
