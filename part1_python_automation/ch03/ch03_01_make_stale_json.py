@@ -1,7 +1,7 @@
 """
 ch03_01_make_stale_json.py
 3.1절 Troubleshooting 실험용. 관찰 기준을 0.03으로 두고 만든
-'옛 설정의 자산'을 data/parsed_stale/ 에 저장한다.
+기준이 다른 자산을 data/parsed_stale/ 에 저장한다.
 2장 파일과 data/parsed/ 는 건드리지 않는다.
 """
 
@@ -12,11 +12,11 @@ from ax_sta import load_records
 from ax_summary import group_by_lot, summarize
 
 STALE_DIR = DATA_DIR / "parsed_stale"
-STALE_THRESHOLD = 0.03  # 다른 설정 버전을 흉내 낸 값
+STALE_THRESHOLD = 0.03  # 이 절의 기준(0.05)과 다른 값
 
 
 def main() -> None:
-    """로트별 요약을 옛 기준으로 계산해 JSON으로 저장한다."""
+    """로트별 요약을 다른 기준으로 계산해 JSON으로 저장한다."""
     records = load_records()
     if not records:
         print(f"[FAIL] 리포트 파일이 없다 : {LOG_DIR}")

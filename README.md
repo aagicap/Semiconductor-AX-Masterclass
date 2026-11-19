@@ -288,6 +288,7 @@ OPENAI_API_KEY=sk-...
 | 2026-11-07 | ch03 | `ch03_01_module_pipeline.py`·`ch03_01_make_stale_json.py`·`ch03_03_make_v5_logs.py`·`ch03_03_parsing_engine.py`의 출력 경로를 저장소 루트 기준 상대 경로로 변경 |
 | 2026-11-07 | ch03/ax_frame.py | `COLUMNS` 목록을 한 줄 여러 항목으로 정리(`# fmt: skip`)해 4.1·4.3절 지면의 줄 번호와 일치시킴. 동작 변경 없음 |
 | 2026-11-07 | .gitignore | `requirements-lock.txt`를 추적 대상에서 제외(환경마다 `pip freeze`로 만드는 파일). 코드 변경 없음 |
+| 2026-11-19 | ch03/ch03_01_make_stale_json.py | 독스트링·주석의 '옛 기준/옛 설정' 표현을 '다른 기준'으로 정리(본문 병목의 옛 기준·새 기준 표기와 일치). 줄 수와 출력은 변경 없음 |
 
 ---
 
