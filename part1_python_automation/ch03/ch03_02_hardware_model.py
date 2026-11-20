@@ -13,7 +13,7 @@ from ax_text import pad
 
 
 def check_guards(wafer: Wafer, stranger: Die) -> list[str]:
-    """객체가 막아 주어야 할 실수 세 가지를 실제로 일으켜 본다."""
+    """객체가 막아 주어야 할 문제 세 가지를 실제로 일으켜 본다."""
     die = wafer.dies[0]
     results = []
     try:
@@ -81,7 +81,7 @@ def report() -> None:
     stranger = lots["LOT_01"].wafers["W_00"].dies[0]
     for line in check_guards(wafer, stranger):
         print(f"  {line}")
-    print("  [확인 범위] 세 가지 실수만 재현했다. 값의 유효성은 미점검")
+    print("  [확인 범위] 세 가지 문제만 재현했다. 값의 유효성은 미점검")
     print("=" * 62)
 
 
