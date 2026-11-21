@@ -36,7 +36,7 @@ def load_dataset(path: Path = CSV_PATH) -> pd.DataFrame:
     )
 
 
-# 4.3 무결성 점검 기준. 스키마 문서가 정한 값만 쓴다
+# 4.3 무결성 점검 기준. 데이터 명세가 정한 값만 쓴다
 COLUMNS = [
     "Timestamp", "Lot_ID", "Wafer_ID", "Die_X", "Die_Y",
     "Equipment_ID", "Path_ID", "Voltage", "Chamber_Temp",
